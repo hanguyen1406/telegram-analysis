@@ -11,7 +11,6 @@ from telethon.tl.types import (
 )
 
 
-# some functions to parse json date
 class DateTimeEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(o, datetime):
@@ -23,11 +22,9 @@ class DateTimeEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, o)
 
 
-# Reading Configs
 config = configparser.ConfigParser()
 config.read("config.ini")
 
-# Setting configuration values
 api_id = config['Telegram']['api_id']
 api_hash = config['Telegram']['api_hash']
 
@@ -36,13 +33,11 @@ api_hash = str(api_hash)
 phone = config['Telegram']['phone']
 username = config['Telegram']['username']
 
-# Create the client and connect
 client = TelegramClient(username, api_id, api_hash)
 
 async def main(phone):
     await client.start()
     print("Client Created")
-    # Ensure you're authorized
     if await client.is_user_authorized() == False:
         await client.send_code_request(phone)
         try:
